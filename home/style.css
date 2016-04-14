@@ -1,0 +1,131 @@
+
+	.container{
+		font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
+		/*border: solid black;*/
+		/*padding-left: 10%;
+		padding-right: 10%;*/
+		top: 125px;
+		width:80%;
+		margin: auto;
+	}
+
+	.topBar{
+
+		/*border: 1px solid orange;*/
+		overflow: auto;
+		
+
+	}
+
+	html{
+		/*background-color: #333;*/
+	}
+
+	.header{
+		display: block;
+		width: 100%;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		height:75;
+		background-color: #333;
+	}
+
+	.header h1{
+		color: #aaa;
+		text-align: center;
+	}
+
+	.classHeader{
+
+		/*border: 1px solid green;*/
+		float: left;
+
+	}
+
+	.searchBar{
+
+		/*border: 1px solid red;*/
+		float: right;
+		/*margin-right: 10%;*/
+		margin-top: 27px;
+
+	}
+
+	table.announcementsTable{
+
+		/*border: solid;*/
+		width:100%;
+		/*padding: 20px;*/
+		/*border-spacing: 5px;*/
+
+	}
+
+	tr.announcements{
+
+		background-color: #ffff80;
+		/*border: 2px solid black;*/
+	}
+
+	table.classTable{
+		width: 100%;
+		border: 2px solid black;
+		border-collapse: collapse;
+		/*clear: both;*/
+
+		text-align: justify;
+		font-size: 15pt;
+		text-align: left;
+	}
+
+	tr{
+	
+		border-bottom: 1px solid #999999;
+
+	}
+
+	td.d2{
+	
+		padding-left: 3px;
+		padding: 5px;
+
+	
+	}
+
+	td.ancmnt{
+
+		height: 150px;
+		width: 150px;
+		padding: 5px;
+		border-collapse: collapse;
+		/*border: 1px solid blue;*/
+
+	}
+
+	.LeftText{
+
+		padding: 5px;
+		font-size: 15pt;
+		float: left;
+		/*border: solid red;*/
+
+	}
+
+	.RightForms{
+
+		float: right;
+		margin-right: 20%;
+		line-height: 250%;
+		padding: 5px;
+		/*border: solid green;*/
+
+	}
+
+	.videoBox
+	{
+		height: 400px;
+		width: 500px;
+		border: solid yellow;
+		
+
+	}
