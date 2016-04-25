@@ -78,6 +78,7 @@
       <li class="active"><a href="">Home</a></li>
       <li><a href="classes">Classes</a></li>
       <li><a href="classes/videos">Videos</a></li>
+       <li><a href="classes/cv">CV</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right ulist-ambush">
       <li><a href="account">Account</a></li>
