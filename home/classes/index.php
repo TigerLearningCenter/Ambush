@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -25,7 +23,7 @@
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../js/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
+    <script src="../js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,26 +44,6 @@
   {
     header("Location: ../../error");
   }
-
-  //THIS WAS GETTING A 500 ERROR
-	// $conn = new MongoClient("mongodb://127.0.0.1:27017");
-	// if($conn)
-	// {
-	//     $class = $conn->selectCollection("project", "courses");
-
-
-	//     $result = $class->find($_GET['class']);
-
-	//     if($result->count() > 0)
-	//     {
-	        
-	//         foreach ($result as $document) 
-	//         {
-	//             $_SESSION['videos'] = $document["vlist"];
-	//         }
-	//     }
-	// }
-	// else echo "Connection failed";
 ?>
 
 <!-- Header -->
@@ -78,6 +56,8 @@
       <li><a href="..">Home</a></li>
       <li class="active"><a href="">Classes</a></li>
       <li><a href="videos">Videos</a></li>
+      <li><a href="CV">CV</a></li>
+      
     </ul>
     <ul class="nav navbar-nav navbar-right ulist-ambush">
       <li><a href="../account">Account</a></li>
@@ -86,41 +66,36 @@
   </div>
 </nav>
 
-<!-- <div class="container">
-	<div class="topBar">
-		
-		<?php echo "<h1>".$_GET['class']."</h1>"; ?>
-
-	</div>
-	<div class="topBar">
-		<table class="announcementsTable">
-			<tr class="announcements">
-				
-				<td class="ancmnt">Class 2</td>
-				<td class="ancmnt">Class 3</td>
-				<?php 
-					foreach($_SESSION['videos'] as $key=>$value){
-				    	echo '<td class="ancmnt"><a href="http://159.203.77.167/player'.$value[vname].'</td>'; 
-				    }
-		    	?>
-
-			</tr>
-		</table>
-
-	</div>
-</div> -->
-
 <div class="container">
     <div class="col-md-3"></div>
     <div class="col-md-6 navbar-ambush-background" style="border-radius: 15px;">
-        <h1>Classes</h1>
+        <div>
+            <h1 style="display: inline-block">Classes</h1>
+            <button onclick="location.href='edit'" class="btn btn-lg btn-primary" style="float: right; margin-top: 10px;">Edit Classes</button>;
+        </div>
         <ul>
-            <li>
-                <h3><a href="videos?class=CS1050">CS1050</a></h3>
-            </li>
-            <li>
-                <h3><a href="videos?class=CS2050">CS2050</a></h3>
-            </li>
+          <?php
+            function escape_str($string)
+            {
+                $encoded = urlencode($string);
+                $encoded = str_replace('+', '%20', $encoded);
+                return $encoded;
+            }
+
+            $conn = new MongoClient("mongodb://127.0.0.1:27017");
+            if ($conn)
+            {
+              $classes = $_SESSION['classes'];
+
+              foreach ($classes as $c)
+              {
+                echo
+                '<li>
+                    <h3><a href="videos?class='.$c.'">'.$c.'</a></h3>
+                </li>';
+              }
+            }
+          ?>
         </ul>
     </div>
     <div class="col-md-3"></div>

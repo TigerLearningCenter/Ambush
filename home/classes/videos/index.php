@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../js/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
+    <script src="../js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -43,22 +43,6 @@
     {
         header("Location: ../../../error");
     }
-
-	// $_SESSION['settings_saved'] = false;
-
- //    if ($_POST)
- //    {
- //    	$fname = $_POST["fname"];
- //        $lname = $_POST["lname"];
- //        $role = $_POST["userrole"];
- //        $user = $_POST["user"];
- //        $pass = $_POST["pass"];
-
- //        $conn = new MongoClient("mongodb://127.0.0.1:27017");
- //        if($conn)
- //        {
-
- //        }
 ?>
 
 <!-- Header -->
@@ -82,24 +66,63 @@
 <div class="container">
     <div class="col-md-3"></div>
     <div class="col-md-6 navbar-ambush-background" style="border-radius: 15px;">
-        <h1>Videos</h1>
+        <div>
+            <h1 style="display: inline-block">Videos</h1>
+            <?php
+                if (strtoupper($_SESSION['role']) != "STUDENT")
+                {
+                    // echo 
+                    // '<button onclick="location.href=\'remove\'" class="btn btn-lg btn-danger" style="float: right; margin-top: 10px; margin-left: 5px;">Remove Video</button>';
+                    echo 
+                    '<button onclick="location.href=\'upload\'" class="btn btn-lg btn-primary" style="float: right; margin-top: 10px;">Add Video</button>';
+                }
+            ?>
+        </div>
         <ul>
-            <li>
-                <h3>CS1050</h3>
-                <ul>
-                    <li><a href="watch?class=CS1050&video=Arrays">Arrays</a></li>
-                    <li><a href="">Pointers</a></li>
-                    <li><a href="">Strings</a></li>
-                </ul>
-            </li>
-            <li>
-                <h3>CS2050</h3>
-                <ul>
-                    <li><a href="">Linked lists</a></li>
-                    <li><a href="">Malloc</a></li>
-                    <li><a href="">Memory Leaks</a></li>
-                </ul>
-            </li>
+            <?php
+                function escape_str($string)
+                {
+                    $encoded = urlencode($string);
+                    $encoded = str_replace('+', '%20', $encoded);
+                    return $encoded;
+                }
+
+                //Get classes by GET or SESSION
+                $classes;
+                if ($_GET)
+                {
+                    $classes = array('classes' => $_GET['class']);
+                }
+                else
+                {
+                    $classes = $_SESSION['classes'];
+                }
+                
+                $conn = new MongoClient("mongodb://127.0.0.1:27017");
+                if ($conn)
+                {
+                    //Iterate over classes and echo List of classes
+                    foreach ($classes as $c)
+                    {
+                        echo "<li><h3>".$c."</h3>";
+
+                        $videos = $conn->selectCollection("project", "videos");
+
+                        $query = array('class' => $c);
+
+                        $result = $videos->find($query);
+
+                        //Iterate through class to get videos and echo list item
+                        foreach ($result as $v)
+                        {
+                            echo '<li style="padding-left:10px;"><a href="watch/?class='.escape_str($v['class']).'&video='.escape_str($v['vname']).'&ext='.escape_str($v['ext']).'"><h4>'.$v["vname"].'</h4></a></li>';
+                            echo '<p style="padding-left:20px;">'.$v['vdescription'].'</p>';
+                        }
+
+                        echo "</li>";
+                    }
+                }
+            ?>
         </ul>
     </div>
     <div class="col-md-3"></div>

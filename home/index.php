@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="UTF-8">
 	<meta charset="utf-8">
@@ -15,7 +14,7 @@
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -25,7 +24,7 @@
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../js/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
+    <script src="../js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,6 +41,30 @@
 	if (!$user)
 	{
 		header("Location: ../error");
+	}
+
+	//TODO
+	//Pull list of videos within last week based on classes in users profile
+
+	$conn = new MongoClient("mongodb://127.0.0.1:27017");
+	if($conn)
+	{
+	    $videos = $conn->selectCollection("project", "videos");
+
+	    $user_classes = $_SESSION['classes'];
+
+	    $announcements = array();
+
+	    foreach ($user_classes as $c)
+	    {
+	    	$query = array('class' => $c);
+
+	    	$result = $videos->find($query);
+	    	foreach ($result as $res)
+	    	{
+	    		array_push($announcements, $res);
+	    	}
+	    }
 	}
 ?>
 
@@ -67,138 +90,37 @@
 	<div class="col-md-12 navbar-ambush-background" style="border-radius: 15px;">
 		<div id="announcements">
 			<h1>Announcements</h1>
-			<div class="col-md-3 background-color: inherit">
-				<div class="quote-container">
-				      <i class="pin"></i>
-				  <blockquote class="note yellow">
-				    We can't solve problems by using the same kind of thinking we used when we created them.
-				    <cite class="author">Albert Einstein</cite>
-				  </blockquote>
-				</div>
-			</div>
-			<div class="col-md-3 background-color: inherit">
-				<div class="quote-container">
-				      <i class="pin"></i>
-				  <blockquote class="note yellow">
-				    We can't solve problems by using the same kind of thinking we used when we created them.
-				    <cite class="author">Terry Ballou</cite>
-				  </blockquote>
-				</div>
-			</div>
-			<div class="col-md-3 background-color: inherit">
-				<div class="quote-container">
-				      <i class="pin"></i>
-				  <blockquote class="note yellow">
-				    We can't solve problems by using the same kind of thinking we used when we created them.
-				    <cite class="author">Clark Kent</cite>
-				  </blockquote>
-				</div>
-			</div>
-			<div class="col-md-3 background-color: inherit">
-				<div class="quote-container">
-				      <i class="pin"></i>
-				  <blockquote class="note yellow">
-				    We can't solve problems by using the same kind of thinking we used when we created them.
-				    <cite class="author">Bruce Wayne</cite>
-				  </blockquote>
-				</div>
-			</div>
+			<?php
+				function escape_str($string)
+				{
+					$encoded = urlencode($string);
+					$encoded = str_replace('+', '%20', $encoded);
+					return $encoded;
+				}
+
+				foreach ($announcements as $a)
+				{
+					echo '<a href="classes/videos/watch/?class='.escape_str($a['class']).'&video='.escape_str($a['vname']).'&ext='.escape_str($a['ext']).'">';
+					echo '<div class="col-md-3 background-color: inherit">';
+					echo '<div class="quote-container">';
+					echo '<i class="pin"></i>';
+					echo '<blockquote class="note yellow">';
+					echo $a['vdescription'];
+					echo '<cite class="author">';
+					echo $a['class'];
+					echo '</cite>';
+					echo '</blockquote>';
+					echo '</div>';
+					echo '</div>';
+					echo '</a>';
+				}
+			?>
 		</div>
 		<div>
 			
 		</div>
 	</div>
 </div>	
-
-	<!--
- 	<div class="container">
-		<h1>Welcome <?php //echo $_SESSION['fname'] . " " . $_SESSION['lname']; ?></h1>
-		<h1><?php //echo $_SESSION['user']; ?></h1>
-		<table class="announcementsTable" id="theAnnouncementsTable">
-
-			<tr class="announcements">
-				<td class="ancmnt">Message 1</td>
-				<td class="ancmnt">Message 2</td>
-				<td class="ancmnt">Message 3</td>
-				<td class="ancmnt">Message 4</td>
-				<td class="ancmnt">Message 5</td>
-				<td class="ancmnt">Message 6</td>
-				<td class="ancmnt">Message 7</td>
-				<td class="ancmnt"></td>
-			</tr>
-
-		</table>
-		<button onclick="addAnnouncement()">Try it</button>
-	</div> -->
-	<!-- END OF ANNOUNCEMENTS DIV -->
-
-
-<!-- START OF CLASS DIV -->
-<!-- <div class="container">
-
-	<div class="topBar">
-		
-		<div class="classHeader">
-			<h1>Classes</h1>
-
-		</div>
-
-		<div class="searchBar">
-			<form>Search: <input type="text" name="searchText"></form>
-		</div>
-
-	</div>
-
-	<table class="classTable" id="theClassTable">
-		<tr>
-			<?php 
-				//foreach($_SESSION['classes'] as $key=>$value)
-			    {
-			    	//echo '<td class="d2"><a href="http://159.203.77.167/ambush/home/classes/index.php?class='.$value[cname]. '">'.$value[cname].'</a></td>';
-			    }
-		    ?>
-		</tr>
-
-		<tr>
-			<td class="d2">Class 1</td>
-		</tr>
-		<tr>
-			<td class="d2">Class 2</td>
-		</tr>
-		<tr>
-			<td class="d2">Class 3</td>
-		</tr>
-		<tr>
-			<td class="d2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget sollicitudin lectus, nec euismod nisi. Cras hendrerit nec sapien eu gravida. Donec eu mi nisl. Aliquam vitae turpis metus. Maecenas vel pellentesque sem, ut malesuada eros. Nulla in orci tortor. Suspendisse in diam et massa ultricies rutrum eget sed libero. Aliquam erat volutpat. Vestibulum ac posuere justo, dictum luctus augue. Quisque imperdiet odio vel arcu volutpat, sed lacinia arcu consequat. Ut feugiat consequat turpis non interdum. Curabitur suscipit tortor tellus, ut condimentum velit commodo vitae. Morbi nulla nunc, lobortis sed ultrices quis, fermentum a mi. Praesent bibendum lorem sagittis erat blandit tempus. Quisque ullamcorper quam et odio mollis, non vehicula massa faucibus.</td>
-		</tr>
-		<tr>
-			<td class="d2">Class 5</td>
-		</tr>
-		<tr>
-			<td class="d2">Class 6</td>
-		</tr>
-
-	</table>
-
-	<button onclick="addClass()">Try it</button>
-
-</div>-->
-
-
-<script> 
-/*add a announcements*/
-
-
-/*add a class function*/
-function addClass() {
-    var table = document.getElementById("theClassTable");
-    	var row = table.insertRow(0);
-
-    	var cell1 = row.insertCell(0);
-
-    	cell1.innerHTML = "Class 1";
-	}
-</script>
 
 </body>
 </html>

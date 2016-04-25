@@ -1,8 +1,3 @@
-<?php
-// Start the session
-session_start();
-//include("header.html");
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,7 +13,7 @@ session_start();
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -28,7 +23,7 @@ session_start();
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
+    <script src="js/ie-emulation-modes-warning.js"></script>
     </head>
 
     <body>
@@ -64,9 +59,10 @@ session_start();
                         $_SESSION['lname'] = $document['lname'];
                         $_SESSION['user'] = $document['user'];
                         $_SESSION['role'] = $document['permission'];
-                        $_SESSION['classes'] = $document["clist"];
+                        $_SESSION['classes'] = $document['clist'];
+                        $_SESSION['pass'] = $document['pass'];
                     }
-                    
+
                     header("Location: home/");
                     exit();
                 }
@@ -75,7 +71,6 @@ session_start();
                     $_SESSION['failed_to_login'] = true;
                 }
             }
-            else echo "Connection failed";
         }
     ?>
 

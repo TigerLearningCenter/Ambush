@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -23,8 +23,8 @@
     <script src="../js/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
 
     <!-- Video player script and skin -->
-    <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
-    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+    <!-- <link href="../../../../css/video-js.css" rel="stylesheet"> -->
+    <!-- <script src="../../../../js/video.js"></script> -->
 
     <!-- Custom styles for this template -->
     <link href="../../../../css/signin.css" rel="stylesheet">
@@ -34,7 +34,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="main.css" /> -->
 </head>
 <body>
 
@@ -48,22 +48,6 @@
   {
     header("Location: ../../../../error");
   }
-
-	// $_SESSION['settings_saved'] = false;
-
- //    if ($_POST)
- //    {
- //    	$fname = $_POST["fname"];
- //        $lname = $_POST["lname"];
- //        $role = $_POST["userrole"];
- //        $user = $_POST["user"];
- //        $pass = $_POST["pass"];
-
- //        $conn = new MongoClient("mongodb://127.0.0.1:27017");
- //        if($conn)
- //        {
-
- //        }
 ?>
 
 <!-- Header -->
@@ -83,41 +67,87 @@
     </ul>
   </div>
 </nav>
-<div class="container">
 
+<div class="container">
   <div class="col-md-2"></div>
   <div class="col-md-8 navbar-ambush-background" style="border-radius: 15px;">
-    <video id="video" class="video-js" controls preload="auto" width="640" height="" poster="" data-setup="{}">
-      <source src="/live/riseabovethis.mp4" type='video/mp4'>
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a web browser that
-        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-      </p>
-    </video>
+    <div>
+        <h1 style="display: inline-block"><?php echo $_GET['video']; ?></h1>
+        <?php
+          if ($_SESSION['role'] != 'Student')
+          {
+            echo '<button onclick="location.href=\'..\'" class="btn btn-lg btn-danger" style="float: right; margin-top: 10px;">Remove</button>';
+          }
+        ?>
+    </div>
+    <?php
+      if($_GET)
+      {
+        function escape_str($string)
+        {
+          $encoded = urlencode($string);
+          $encoded = str_replace('+', '%20', $encoded);
+          return $encoded;
+        }
+
+        $class = $_GET['class'];
+        $video = $_GET['video'];
+        $ext = $_GET['ext'];
+
+        echo 
+          '<video id="video" class="" controls preload="auto" width="100%" height="" poster="" data-setup="{}">
+            <source src="/live/'.$class.'/'.$video.'.'.$ext.'" type="video/mp4">
+            <p class="">
+              You cannot view this video with your current browser. We recommend you download Google Chrome <a href="https://www.google.com/chrome/browser/desktop/">here</a>
+            </p>
+          </video>';
+      }
+      else
+      {
+        echo '<a href=".."><h1>Please select a video to watch</h1></a>';
+      }
+    ?>
+
+    <div class="form-signin" style="max-width: 500px;">
+      <!-- <form method="post" onsubmit=""> -->
+          <h2 class="form-signin-heading heading">Leave A Comment</h2>
+          <label for="addcomment" class="sr-only">Description</label>
+          <textarea id="addcomment" name="addcomment" class="form-control" placeholder="Comment" required></textarea>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+        <!-- </form> -->
+    </div>
+
+    <div style="text-align: center; margin-right: 15px;">
+      <div class="talk-bubble tri-right round left-in">
+        <div class="talktext">
+          <p style="min-height: 50px; color: #aaa; font-size: 16px;"><strong>Terry:</strong><br>I really liked this video. I thought it was very educational.</p>
+        </div>
+      </div>
+      <div class="talk-bubble tri-right round left-in">
+        <div class="talktext">
+          <p style="min-height: 50px; color: #aaa; font-size: 16px;"><strong>Terry:</strong><br>I really liked this video. I thought it was very educational.</p>
+        </div>
+      </div>
+      <div class="talk-bubble tri-right round left-in">
+        <div class="talktext">
+          <p style="min-height: 50px; color: #aaa; font-size: 16px;"><strong>Terry:</strong><br>I really liked this video. I thought it was very educational.</p>
+        </div>
+      </div>
+      <div class="talk-bubble tri-right round right-in" style="float: right;">
+        <div class="talktext">
+          <p style="min-height: 50px; color: #aaa; font-size: 16px;"><strong>Terry:</strong><br>I really liked this video. I thought it was very educational.</p>
+        </div>
+      </div>
+      <div class="talk-bubble tri-right round left-in">
+        <div class="talktext">
+          <p style="min-height: 50px; color: #aaa; font-size: 16px;"><strong>Terry:</strong><br>I really liked this video. I thought it was very educational.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <!-- chat room -->
-  <div id="wrapper">
-    <div id="menu">
-        <p class="welcome">Welcome, <b><?php echo $_SESSION['fname']; ?></b></p>
-        <div style="clear:both"></div>
-    </div>
-     
-    <div id="chatbox"></div>
-     
-    <form name="message" action="">
-        <input name="usermsg" type="text" id="usermsg" size="63" />
-        <input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
-    </form>
-    </div>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-    <script type="text/javascript">
-    // jQuery Document
-    $(document).ready(function(){
-     
-    });
-    </script>
-    <!-- chat room -->
   <div class="col-md-2"></div>
 </div>
+
 </body>
 </html>
