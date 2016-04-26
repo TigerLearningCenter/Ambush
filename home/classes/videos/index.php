@@ -44,6 +44,7 @@
         header("Location: ../../../error");
     }
 ?>
+<script id="cid0020000122617216272" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 231px;height: 359px;">{"handle":"ambushchatroom","arch":"js","styles":{"a":"f1b82d","b":100,"c":"000000","d":"000000","k":"f1b82d","l":"f1b82d","m":"f1b82d","p":"10","q":"f1b82d","r":100,"pos":"br","cv":1,"cvbg":"f1b82d","cvw":300,"cvh":36,"ticker":1,"fwtickm":1}}</script>
 
 <!-- Header -->
 <nav class="navbar navbar-ambush-background">
